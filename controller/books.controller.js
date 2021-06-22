@@ -21,16 +21,54 @@ const getBooks = (request, response) => {
 }
 
 const createBook = (request, response) =>{
-    const {userEmail, bookName} = request.query;
+    const {userEmail, bookName, discBook, bookStatus} = request.body;
     userModel.findOne({ email: userEmail}, (error, user) =>{
         if(error){
             response.send(error)
         }
         else{
-            user.books.push({name: bookName});
+            user.books.push({name: bookName, description: discBook, status: bookStatus});
             user.save();
             response.json(user)
         }
     })
 }
-module.exports = {getBooks, createBook};
+
+
+const deleteBook = (request, response) => {
+    console.log(request.params)
+    const catIndex = request.params.cat_idx;
+    const { email } = request.query;
+
+    userModel.findOne({ email: email }, (error, userData) => {
+        if (error) {
+            response.send(error)
+        } else {
+            userData.books.splice(catIndex, 1);
+            userData.save();
+            response.send(userData)
+        }
+
+    });
+}
+
+const updateBook = (request, response) => {
+    console.log(request.params)
+    const bookIndex = request.params.book_idx;
+    const { userEmail, bookName, discBook, bookStatus } = request.body;
+
+    userModel.findOne({ email: userEmail }, (error, userData) => {
+        if (error) {
+            response.send(error)
+        } else {
+            userData.books.splice(bookIndex, 1, { name: bookName, description: discBook, status: bookStatus  });
+            userData.save();
+            response.send(userData)
+        }
+
+    });
+}
+
+
+
+module.exports = {getBooks,createBook,deleteBook,updateBook};
