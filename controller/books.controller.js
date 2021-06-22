@@ -20,4 +20,17 @@ const getBooks = (request, response) => {
     });
 }
 
-module.exports = getBooks;
+const createBook = (request, response) =>{
+    const {userEmail, bookName} = request.query;
+    userModel.findOne({ email: userEmail}, (error, user) =>{
+        if(error){
+            response.send(error)
+        }
+        else{
+            user.books.push({name: bookName});
+            user.save();
+            response.json(user)
+        }
+    })
+}
+module.exports = {getBooks, createBook};
