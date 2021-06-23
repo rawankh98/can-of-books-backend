@@ -11,7 +11,7 @@ const getBooks = (request, response) => {
 
     const { email } = request.query;
 
-    userModel.find({ email: email }, (error, user) => {
+    userModel.findOne({ email: email }, (error, user) => {
         if (error) {
             response.send(error)
         } else {
@@ -21,13 +21,13 @@ const getBooks = (request, response) => {
 }
 
 const createBook = (request, response) =>{
-    const {userEmail, bookName, discBook, bookStatus} = request.body;
-    userModel.findOne({ email: userEmail}, (error, user) =>{
+    const {email, bookName, description, status} = request.body;
+    userModel.findOne({ email: email}, (error, user) =>{
         if(error){
             response.send(error)
         }
         else{
-            user.books.push({name: bookName, description: discBook, status: bookStatus});
+            user.books.push({name: bookName, description: description, status: status});
             user.save();
             response.json(user)
         }
@@ -36,15 +36,15 @@ const createBook = (request, response) =>{
 
 
 const deleteBook = (request, response) => {
-    console.log(request.params)
-    const catIndex = request.params.cat_idx;
+    const bookIndex = request.params.book_idx;
+    console.log(bookIndex);
     const { email } = request.query;
 
     userModel.findOne({ email: email }, (error, userData) => {
         if (error) {
             response.send(error)
         } else {
-            userData.books.splice(catIndex, 1);
+            userData.books.splice(bookIndex, 1);
             userData.save();
             response.send(userData)
         }
@@ -55,13 +55,13 @@ const deleteBook = (request, response) => {
 const updateBook = (request, response) => {
     console.log(request.params)
     const bookIndex = request.params.book_idx;
-    const { userEmail, bookName, discBook, bookStatus } = request.body;
+    const { email, bookName, description, status } = request.body;
 
-    userModel.findOne({ email: userEmail }, (error, userData) => {
+    userModel.findOne({ email: email }, (error, userData) => {
         if (error) {
             response.send(error)
         } else {
-            userData.books.splice(bookIndex, 1, { name: bookName, description: discBook, status: bookStatus  });
+            userData.books.splice(bookIndex, 1, { name: bookName, description: description, status: status  });
             userData.save();
             response.send(userData)
         }
