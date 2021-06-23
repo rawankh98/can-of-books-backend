@@ -18,7 +18,9 @@ mongoose.connect('mongodb://localhost:27017/myFavouriteBooks',
 
 //  seedUserData();
  app.get('/books', getBooks);
-
+ app.get('/',(request,responce)=>{
+    responce.send('Hello World');
+})
  app.post('/book', createBook);
 
  app.delete('/book/:book_idx', deleteBook);
