@@ -10,7 +10,7 @@ const userModel = require('../models/user.model');
 const getBooks = (request, response) => {
 
     const { email } = request.query;
-
+    console.log(email);
     userModel.findOne({ email: email }, (error, user) => {
         if (error) {
             response.send(error)

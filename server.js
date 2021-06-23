@@ -4,6 +4,7 @@ require('dotenv').config();
 const PORT = process.env.PORT;
 const mongoose = require('mongoose');
 const seedUserData = require('./models/user.model');
+// const MONGO_URL = process.env.MONGO_URL;
 const getBooks = require('./controller/books.controller').getBooks;
 const createBook = require('./controller/books.controller').createBook;
 const deleteBook = require('./controller/books.controller').deleteBook;
