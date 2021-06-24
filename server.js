@@ -4,7 +4,7 @@ require('dotenv').config();
 const PORT = process.env.PORT;
 const mongoose = require('mongoose');
 const seedUserData = require('./models/user.model');
-// const MONGO_URL = process.env.MONGO_URL;
+//const MONGO_URL = process.env.MONGO_URL;
 const getBooks = require('./controller/books.controller').getBooks;
 const createBook = require('./controller/books.controller').createBook;
 const deleteBook = require('./controller/books.controller').deleteBook;
@@ -13,7 +13,7 @@ const updateBook = require('./controller/books.controller').updateBook;
 const cors = require('cors'); // enable the communication between the frontend and the backend
 
 app.use(cors());
-mongoose.connect('mongodb://localhost:27017/myFavouriteBooks', 
+mongoose.connect(process.env.MONGO_URL, 
  { useNewUrlParser: true, useUnifiedTopology: true });
  app.use(express.json());
 
